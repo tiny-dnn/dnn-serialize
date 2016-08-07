@@ -49,12 +49,8 @@ struct conv_param {
 class conv_layer : public layer {
 public:
     conv_layer() {}
-
-    explicit conv_layer(const conv_param& p) : p(p) {
-    }
-
-    conv_layer(size_t window_size, size_t out_channels) : p({ window_size, window_size, out_channels }) {
-    }
+    explicit conv_layer(const conv_param& p) : p(p) {}
+    conv_layer(size_t window_size, size_t out_channels) : p({ window_size, window_size, out_channels }) {}
 
     IMPLEMENT_CLONE_AND_SERIALIZATION(conv_layer, "conv")
 
@@ -79,10 +75,8 @@ struct fc_param {
 class fc_layer : public layer {
 public:
     fc_layer() {}
-
     explicit fc_layer(const fc_param& p) : p(p) {}
-
-    fc_layer(size_t out_size) : p({out_size, true}) {}
+    explicit fc_layer(size_t out_size) : p({out_size, true}) {}
 
     IMPLEMENT_CLONE_AND_SERIALIZATION(fc_layer, "fc")
 
