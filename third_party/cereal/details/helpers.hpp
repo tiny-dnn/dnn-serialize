@@ -40,30 +40,6 @@
 #include <cereal/macros.hpp>
 #include <cereal/details/static_object.hpp>
 
-//! Defines the CEREAL_NOEXCEPT macro to use instead of noexcept
-/*! If a compiler we support does not support noexcept, this macro
-    will detect this and define CEREAL_NOEXCEPT as a no-op */
-#if !defined(CEREAL_HAS_NOEXCEPT)
-  #if defined(__clang__)
-    #if __has_feature(cxx_noexcept)
-      #define CEREAL_HAS_NOEXCEPT
-    #endif
-  #else // NOT clang
-    #if defined(__GXX_EXPERIMENTAL_CXX0X__) && __GNUC__ * 10 + __GNUC_MINOR__ >= 46 || \
-        defined(_MSC_FULL_VER) && _MSC_FULL_VER >= 190023026
-      #define CEREAL_HAS_NOEXCEPT
-    #endif // end GCC/MSVC check
-  #endif // end NOT clang block
-
-  #ifndef CEREAL_NOEXCEPT
-    #ifdef CEREAL_HAS_NOEXCEPT
-      #define CEREAL_NOEXCEPT noexcept
-    #else
-      #define CEREAL_NOEXCEPT
-    #endif // end CEREAL_HAS_NOEXCEPT
-  #endif // end !defined(CEREAL_HAS_NOEXCEPT)
-#endif // ifndef CEREAL_NOEXCEPT
-
 namespace cereal
 {
   // ######################################################################
@@ -158,7 +134,7 @@ namespace cereal
   template <class T>
   class NameValuePair : detail::NameValuePairCore
   {
-    private:
+    protected:
       // If we get passed an array, keep the type as is, otherwise store
       // a reference if we were passed an l value reference, else copy the value
       using Type = typename std::conditional<std::is_array<typename std::remove_reference<T>::type>::value,
@@ -188,6 +164,19 @@ namespace cereal
       Type value;
   };
 
+  template<class T>
+  class OptionalNameValuePair : public NameValuePair<T>
+  {
+  public:
+     template<class V>
+     OptionalNameValuePair(char const* name, T&& value, V const& defaultValue_)
+        : NameValuePair<T>(name, std::forward<T>(value))
+        , defaultValue(defaultValue_)
+     {}
+
+     std::remove_reference_t<T> defaultValue{};
+  };
+
   //! A specialization of make_nvp<> that simply forwards the value for binary archives
   /*! @relates NameValuePair
       @internal */
@@ -213,6 +202,19 @@ namespace cereal
   {
     return {name, std::forward<T>(value)};
   }
+
+  ////! A specialization of make_optional_nvp<> that actually creates an nvp for non-binary archives
+  ///*! @relates NameValuePair
+  //@internal */
+  //template<class Archive, class T>
+  //typename
+  //std::enable_if<!std::is_same<Archive, ::cereal::BinaryInputArchive>::value &&
+  //               !std::is_same<Archive, ::cereal::BinaryOutputArchive>::value,
+  //OptionalNameValuePair<T> >::type
+  //make_optional_nvp(const char * name, T && value, T const& defaultValue = T{})
+  //{
+  //   return{name, std::forward<T>(value), defaultValue};
+  //}
 
   //! Convenience for creating a templated NVP
   /*! For use in internal generic typing functions which have an

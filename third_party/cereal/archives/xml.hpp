@@ -158,7 +158,7 @@ namespace cereal
       }
 
       //! Destructor, flushes the XML
-      ~XMLOutputArchive()
+      ~XMLOutputArchive() CEREAL_NOEXCEPT
       {
         const int flags = itsIndent ? 0x0 : rapidxml::print_no_indenting;
         rapidxml::print( itsStream, itsXML, flags );
@@ -411,6 +411,8 @@ namespace cereal
         else
           itsNodes.emplace( root );
       }
+
+      ~XMLInputArchive() CEREAL_NOEXCEPT = default;
 
       //! Loads some binary data, encoded as a base64 string, optionally specified by some name
       /*! This will automatically start and finish a node to load the data, and can be called directly by
@@ -754,6 +756,30 @@ namespace cereal
   //! Epilogue for NVPs for XML input archives
   template <class T> inline
   void epilogue( XMLInputArchive &, NameValuePair<T> const & )
+  { }
+
+  // ######################################################################
+  //! Prologue for NVPs for XML output archives
+  /*! NVPs do not start or finish nodes - they just set up the names */
+  template <class T> inline
+     void prologue(XMLOutputArchive &, OptionalNameValuePair<T> const &)
+  { }
+
+  //! Prologue for NVPs for XML input archives
+  template <class T> inline
+     void prologue(XMLInputArchive &, OptionalNameValuePair<T> const &)
+  { }
+
+  // ######################################################################
+  //! Epilogue for NVPs for XML output archives
+  /*! NVPs do not start or finish nodes - they just set up the names */
+  template <class T> inline
+     void epilogue(XMLOutputArchive &, OptionalNameValuePair<T> const &)
+  { }
+
+  //! Epilogue for NVPs for XML input archives
+  template <class T> inline
+     void epilogue(XMLInputArchive &, OptionalNameValuePair<T> const &)
   { }
 
   // ######################################################################
