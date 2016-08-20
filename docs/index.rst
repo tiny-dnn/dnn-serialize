@@ -1,37 +1,31 @@
-:orphan:
+tiny-dnn documentations
+########################
 
-#####################
-Contents
-#####################
-
-Getting Started
-********************
+`tiny-dnn <https://github.com/tiny-dnn/tiny-dnn/>`_ is a header only,
+dependency free deep learning library written in C++.
+It is designed to be used in the real applications,
+including IoT devices and embedded systems.
 
 .. toctree::
    :maxdepth: 1
 
    getting_started/index
 
-How-Tos
-********************
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    how_tos/index   
 
-Update log
-********************
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    update_log/index  
 
-Developer Guides
-********************
+
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    developer_guides/index   
 
@@ -42,7 +36,10 @@ I'm willing to update this list if your software use tiny-dnn. Please contact me
 Official Examples
 ===================
 
-* `MNIST classification <https://github.com/tiny-dnn/tiny-dnn/tree/master/examples/mnist>`_
+* `MNIST image classification <https://github.com/tiny-dnn/tiny-dnn/tree/master/examples/mnist>`_
+* `Cifar-10 image classification <https://github.com/tiny-dnn/tiny-dnn/tree/master/examples/cifar10>`_
+* `Deconvolutional Auto-encoder <https://github.com/tiny-dnn/tiny-dnn/tree/master/examples/deconv>`_
+* `Importing Caffe's model into tiny-dnn <https://github.com/tiny-dnn/tiny-dnn/tree/master/examples/caffe_converter>`_
 
 Applications
 ===================

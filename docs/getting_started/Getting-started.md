@@ -70,9 +70,5 @@ Save the trained parameter:
     ofs << net;
 ```
 
-For a more in-depth about tiny-dnn, check out [MNIST classification](../examples/mnist/readme.md) where you can see the end-to-end example.
-You will find tiny-dnn's API in [How-to](How-Tos.md).
-
-## Design
-
-![url](http://uml.mvnsearch.org/github/edgarriba/tiny-cnn/blob/feat/generic-computational-graph-device-abstraction/doc/device-abstraction-uml.puml)
+For a more in-depth about tiny-dnn, check out [MNIST classification](https://github.com/tiny-dnn/tiny-dnn/tree/master/examples/mnist) where you can see the end-to-end example.
+You will find tiny-dnn's API in [How-to](../how_tos/How-Tos.md).
