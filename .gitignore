@@ -54,3 +54,5 @@ Release
 *.db
 *.opendb
 *.filters
+
+docs/_build
